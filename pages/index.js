@@ -1,94 +1,109 @@
 import config from "../config.json";
 import styled from "styled-components";
+import { CSSReset } from "../src/components/CSSReset";
+import Menu from "../src/components/Menu";
+import { StyledTimeline } from "../src/components/Timeline";
 
 function HomePage() {
-  const estilosDaHomePage = { backgroundColor: "red"};
+    const estilosDaHomePage = {
+        // backgroundColor: "red" 
+    };
 
-   // console.log(config.playlists); 
+    // console.log(config.playlists);
 
     return (
-      <div style={estilosDaHomePage}>
-        <Menu />
-        <Header />
-        <Timeline playlists={config.playlists} />
-      </div>
+        <>
+            <CSSReset />
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                flex: 1,
+                // backgroundColor: "red",
+            }}>
+                <Menu />
+                <Header />
+                <Timeline playlists={config.playlists}>
+                    Conteúdo
+                </Timeline>
+            </div>
+        </>
     );
-  }
-  
-  export default HomePage
+}
 
-  function Menu() {
-    return (
-      <div>
-          Menu
-      </div>
-    )
-  }
+export default HomePage
 
-  const StyledHeader = styled.div`
+// function Menu() {
+//     return (
+//         <div>
+//             Menu
+//         </div>
+//     )
+// }
+
+
+const StyledHeader = styled.div`
     img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
     }
     .user-info {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 16px 32px;
-      gap: 16px;
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 16px 32px;
+        gap: 16px;
     }
-  `;
-
-  function Header() {
+`;
+function Header() {
     return (
-      <StyledHeader>
-          {/*<img src="banner" /> */}
-
-        <section className="user-info">
-          <img src={`https://github.com/${config.github}.png`} />
-          <div>
-            <h2>
-               {config.name}
-             </h2>
-            <p>
-               {config.job}
-             </p>
-          </div>  
-        </section>
-      </StyledHeader>
+        <StyledHeader>
+            {/* <img src="banner" /> */}
+            <section className="user-info">
+                <img src={`https://github.com/${config.github}.png`} />
+                <div>
+                    <h2>
+                        {config.name}
+                    </h2>
+                    <p>
+                        {config.job}
+                    </p>
+                </div>
+            </section>
+        </StyledHeader>
     )
-  }
+}
 
-  function Timeline(propriedades) {
-   // console.log("Dentro do componente", propriedades.playlists);
-    const playlistsNames = Object.keys(propriedades.playlists);
+function Timeline(propriedades) {
+    // console.log("Dentro do componente", propriedades.playlists);
+    const playlistNames = Object.keys(propriedades.playlists);
     // Statement
-    // Retorno por expressão 
+    // Retorno por expressão
     return (
-      <div>
-            {playlistsNames.map((playlistsNames) => {
-              const videos = propriedades.playlists[playlistsNames];
-              console.log(playlistsNames);
-              console.log(videos);
-              return (
+        <StyledTimeline>
+            {playlistNames.map((playlistName) => {
+                const videos = propriedades.playlists[playlistName];
+                console.log(playlistName);
+                console.log(videos);
+                return (
                     <section>
-                      <h2>{playlistsNames}</h2>
-                      <div>
-                        {videos.map((map) => {
-                          return (
-                            <a href={videos.url}>
-                              <img src={videos.thumb} />
-                              <span>
-                                  {videos.title}
-                              </span>
-                            </a>
-                          )
-                     })}
-                     </div>
-                   </section> 
-              ) 
+                        <h2>{playlistName}</h2>
+                        <div>
+                            {videos.map((video) => {
+                                return (
+                                    <a href={video.url}>
+                                        <img src={video.thumb} />
+                                        <span>
+                                            {video.title}
+                                        </span>
+                                    </a>
+                                )
+                            })}
+                        </div>
+                    </section>
+                )
             })}
-      </div>
+        </StyledTimeline>
     )
-  }
+}
